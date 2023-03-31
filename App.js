@@ -29,11 +29,12 @@ export default function App() {
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
           },
+          tabBarActiveTintColor: '#05A0FA',
+          tabBarInactiveTintColor: 'gray',
+          tabBarStyle: {
+            display: 'flex',
+          },
         })}
-        tabBarOptions={{
-          activeTintColor: '#05A0FA',
-          inactiveTintColor: 'gray',
-        }}
       >
         <Tab.Screen name="Home" component={HomeScreen} />
         <Tab.Screen name="Search" component={SearchScreen} />

@@ -90,8 +90,8 @@ export default function HomeScreen() {
     <View style={styles.container}>
       {location && (
         <View style={styles.box}>
-          <Image source={getImageSource(icon)} style={{ width: 50, height: 50 , margin: 16,}} />
-          <Text style={styles.text}>AQI: {aqi}</Text>
+          <Image source={getImageSource(icon)} style={{ width: 50, height: 50 , margin: 16, resizeMode: 'contain'}} />
+          <Text style={styles.text}>{weather}°C AQI: {aqi}</Text>
           <Text style={styles.text}>{states}, {countries}</Text>
           <Text style={styles.sub_text}>{cities}</Text>
         </View>
