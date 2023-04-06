@@ -2,9 +2,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import HomeScreen from './HomeScreen';
-import SearchScreen from './SearchScreen';
-import ProfileScreen from './ProfileScreen';
+import HomeScreen from './screen/HomeScreen';
+import SearchScreen from './screen/SearchScreen';
+import ProfileScreen from './screen/ProfileScreen';
 
 import { Ionicons } from '@expo/vector-icons';
 
