@@ -8,7 +8,7 @@ export default function HomeScreen() {
   
   return (
     
-    <View style={{ flex: 1, backgroundColor: '#FFFFFF', }}>
+    <View style={{ flex: 1, backgroundColor: '#FFFFFF'}}>
       
       <View
         style={{
@@ -16,7 +16,6 @@ export default function HomeScreen() {
           borderBottomStartRadius: 40,
           padding: 25,
           height: "66%",
-          
         }}
       >
         <View
@@ -64,7 +63,6 @@ export default function HomeScreen() {
           />
         </View>
       </View>
-      
       <BlurView
         intensity={60}
         style={{
@@ -74,7 +72,7 @@ export default function HomeScreen() {
           alignSelf: "center",
           marginTop: 210,
           borderRadius: 35,
-          //  borderWidth: 1, 
+           borderWidth: 1, 
           borderColor: 'white',
           padding: 20,
           paddingTop: 30,

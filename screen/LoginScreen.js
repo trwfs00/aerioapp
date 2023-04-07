@@ -37,7 +37,7 @@ export default function LoginScreen() {
 
     return (
         <View style={{ flex: 1 }}>
-            <View style={{ padding: 20, marginTop: 50, backgroundColor: "#0598ED", paddingBottom: 50, borderBottomStartRadius: 40 }}>
+            <View style={{ padding: 20, paddingTop: 50, backgroundColor: "#0598ED", paddingBottom: 50, borderBottomStartRadius: 40 }}>
 
                 <FirebaseRecaptchaVerifierModal
                     ref={recaptchaVerifier}
@@ -48,7 +48,7 @@ export default function LoginScreen() {
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <TouchableOpacity>
                         <Image
-                            source={require('./assets/back_icon.png')}
+                            source={require('../assets/back_icon.png')}
                             style={{
                                 width: 50,
                                 height: 50,
@@ -66,7 +66,7 @@ export default function LoginScreen() {
                             resizeMode: "contain",
                             alignSelf: "flex-end",
                         }}
-                        source={require("./assets/cloud.png")}
+                        source={require("../assets/cloud.png")}
                     />
                 </View>
 
