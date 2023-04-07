@@ -3,9 +3,9 @@ import { LogBox, View, Text, TextInput, Button, StyleSheet, SafeAreaView } from 
 import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './screen/HomeScreen';
-import SearchScreen from './SearchScreen';
-import ProfileScreen from './ProfileScreen';
-import LoginScreen from './LoginScreen'
+import SearchScreen from './screen/SearchScreen';
+import ProfileScreen from './screen/ProfileScreen';
+import LoginScreen from './screen/LoginScreen'
 import firebase from 'firebase/compat/app';
 import { getDatabase, ref, onValue, set } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
