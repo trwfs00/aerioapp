@@ -5,11 +5,6 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import HomeScreen from './HomeScreen';
 import SearchScreen from './SearchScreen';
 import ProfileScreen from './ProfileScreen';
-import LoginScreen from './LoginScreen'
-import firebase from 'firebase/compat/app';
-import { getDatabase, ref, onValue, set } from 'firebase/database';
-import { getAuth } from 'firebase/auth';
-import { StatusBar } from 'react-native';
 
 import { Ionicons } from '@expo/vector-icons';
 

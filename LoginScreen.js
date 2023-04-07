@@ -139,10 +139,21 @@ export default function LoginScreen() {
                     >
                         <Text style={{ color: "#05A0FA", fontSize: 15, textAlign: "center", borderLeftWidth: 2, borderColor: "#05A0FA" }}>Send OTP</Text>
                     </TouchableOpacity>
+                    
                 </View>
 
-
                 {message ? (
+                        <Text
+                            style={{    
+                                color: message.color || "white",
+                                fontSize: 16,
+                                margin: 15,
+                                marginTop:20
+                            }}>
+                            {message.text}
+                        </Text>) : undefined}
+                    {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}       
+                {/* {message ? (
                     <TouchableOpacity
                         style={[
                             StyleSheet.absoluteFill,
@@ -162,7 +173,7 @@ export default function LoginScreen() {
                         </Text>
                     </TouchableOpacity>
                 ) : undefined}
-                {attemptInvisibleVerification && <FirebaseRecaptchaBanner />}
+                {attemptInvisibleVerification && <FirebaseRecaptchaBanner />} */}
             </View>
             <View style={{ flex: 1 }}></View>
             <View style={{ padding: 30, }}>
