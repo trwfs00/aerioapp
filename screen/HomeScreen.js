@@ -44,6 +44,7 @@ export default function HomeScreen() {
   useEffect(() => {
     getLocationAsync();
   }, []);
+
   useEffect(() => {
     const now = new Date();
     const offset = now.getTimezoneOffset();
@@ -131,14 +132,36 @@ export default function HomeScreen() {
     if(aqi >= 0) return "Breathe deeply and enjoy the fresh, clean air around you.";
   }
 
+  // function changeColor(value) {
+  //   if(value >= 301) setPmColor("#872E47");
+  //   if(value >= 201) setPmColor("#8E4296");
+  //   if(value >= 151) setPmColor("#EF574E");
+  //   if(value >= 101) setPmColor("#FF9900");
+  //   if(value >= 51) setPmColor("#FBD405");
+  //   if(value >= 0) setPmColor("#4CD964");
+  // } 
+
   function changeColor(value) {
-    if(value >= 301) setPmColor("#872E47");
-    if(value >= 201) setPmColor("#8E4296");
-    if(value >= 151) setPmColor("#EF574E");
-    if(value >= 101) setPmColor("#FF9900");
-    if(value >= 51) setPmColor("#FBD405");
-    if(value >= 0) setPmColor("#4CD964");
+    if(value >= 301) return "#872E47";
+    if(value >= 201) return "#8E4296";
+    if(value >= 151) return "#EF574E";
+    if(value >= 101) return "#FF9900";
+    if(value >= 51) return "#FBD405";
+    if(value >= 0) return "#4CD964";
   } 
+
+  // function changeColor(value) {
+  //   switch(value){
+  //     case (value >= 301) : return setPmColor("#872E47");
+  //     case (value >= 201) : return setPmColor("#8E4296");
+  //     case (value >= 151) : return setPmColor("#EF574E");
+  //     case (value >= 101) : return setPmColor("#FF9900");
+  //     case (value >= 51) : return setPmColor("#FBD405");
+  //     case (value >= 0) : return setPmColor("#4CD964");
+  //   }
+  // } 
+
+  
 
   const getCharacterSource = (aqi) => {
     if(aqi >= 301) return a301_500;
@@ -192,13 +215,13 @@ export default function HomeScreen() {
         <Text>{errorMessage}</Text>
       </View>
     );
-  } else if (location && weatherData) {
+  } else if (location && weatherData ) {
     return (
       <View style={{ flex: 1, backgroundColor: '#FFFFFF', }}>
       
       <View
         style={{
-          backgroundColor: pmColor,
+          backgroundColor: changeColor(usaqi),
           borderBottomStartRadius: 40,
           padding: 25,
           height: "66%",
@@ -260,12 +283,10 @@ export default function HomeScreen() {
           alignSelf: "center",
           marginTop: 210,
           borderRadius: 35,
-          //  borderWidth: 1, 
-          borderColor: 'white',
+           borderWidth: 1.2, 
+          borderColor: '#FFFFFF',
           padding: 20,
-          paddingTop: 30,
-          shadowColor: '#000',
-          
+          paddingTop: 30,  
         }}
         
       >
