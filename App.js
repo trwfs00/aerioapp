@@ -27,7 +27,7 @@ LogBox.ignoreAllLogs(true);
 
 try {
   firebase.initializeApp(firebaseConfig);
-} catch (err) {}
+} catch (err) { }
 
 function dbListener(path, setData) {
   const tb = ref(getDatabase(), path);
@@ -43,31 +43,31 @@ export default function App() {
 
   useEffect(() => {
     var auth = getAuth();
-    auth.onAuthStateChanged(function(us){
+    auth.onAuthStateChanged(function (us) {
       setUser(us);
     })
   }, []);
 
-  // if (user == null) {
-  //   return <LoginScreen/>
-  // }
+  if (user == null) {
+    return <LoginScreen/>
+  }
 
   return (
     
-    <NavigationContainer >
+    <NavigationContainer>
       
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName;
-           
+
             if (route.name === 'Home') {
               iconName = focused ? 'home' : 'home-outline';
             } else if (route.name === 'Search') {
               iconName = focused ? 'search' : 'search-outline';
             } else if (route.name === 'Profile') {
               iconName = focused ? 'person' : 'person-outline';
-            } 
+            }
 
             // You can return any component that you like here!
             return <Ionicons name={iconName} size={size} color={color} />;
@@ -80,7 +80,7 @@ export default function App() {
             borderTopLeftRadius:20,
             borderTopRightRadius:20,
           },
-          
+
         })}
       >
         <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
