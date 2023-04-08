@@ -6,12 +6,12 @@ import HomeScreen from './screen/HomeScreen';
 import SearchScreen from './screen/SearchScreen';
 import ProfileScreen from './screen/ProfileScreen';
 import LoginScreen from './screen/LoginScreen'
+import LoginEmailScreen from './screen/LoginEmailScreen';
 import firebase from 'firebase/compat/app';
 import { getDatabase, ref, onValue, set } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
-import { StatusBar } from 'react-native';
-
 import { Ionicons } from '@expo/vector-icons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 const firebaseConfig = {
   apiKey: "AIzaSyCminE7NHtcv2QBkNZs6EgkOi1NimQX2KI",
@@ -37,6 +37,8 @@ function dbListener(path, setData) {
 }
 
 const Tab = createBottomTabNavigator();
+const Stack = createNativeStackNavigator();
+
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -52,10 +54,14 @@ export default function App() {
   //   return <LoginScreen/>
   // }
 
+  if (user == null) {
+    return <LoginEmailScreen/>
+  }
+
   return (
     
     <NavigationContainer>
-      
+
       <Tab.Navigator
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
@@ -86,7 +92,10 @@ export default function App() {
         <Tab.Screen name="Home" component={HomeScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Search" component={SearchScreen} options={{ headerShown: false }} />
         <Tab.Screen name="Profile" component={ProfileScreen} options={{ headerShown: false }} />
+        
       </Tab.Navigator>
+
     </NavigationContainer>
+  
   );
 }

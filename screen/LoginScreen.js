@@ -21,6 +21,7 @@ import {
 } from "firebase/auth";
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { BottomNavigation } from "react-native-paper";
+import { useNavigation } from '@react-navigation/native';
 
 export default function LoginScreen() {
     // Ref or state management hooks
@@ -34,6 +35,8 @@ export default function LoginScreen() {
     const firebaseConfig = app ? app.options : undefined;
     const [message, showMessage] = React.useState();
     const attemptInvisibleVerification = false;
+
+    
 
     return (
         <View style={{ flex: 1 }}>
@@ -176,8 +179,10 @@ export default function LoginScreen() {
                 {attemptInvisibleVerification && <FirebaseRecaptchaBanner />} */}
             </View>
             <View style={{ flex: 1 }}></View>
-            <View style={{ padding: 30, }}>
-
+            <View style={{ padding: 30 }}>
+                <TouchableOpacity >
+                    <Text >Email</Text>
+                </TouchableOpacity>
                 <TouchableOpacity
                     title="Sign in"
                     color={"#05A0FA"}
