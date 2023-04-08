@@ -23,7 +23,7 @@ const a151_200 = require('../assets/character/151-200.png');
 const a201_300 = require('../assets/character/201-300.png');
 const a301_500 = require('../assets/character/301-500.png');
 
-const API_KEY = '696a49a5-7001-4cd5-98eb-b88cbde9cbc8';
+const API_KEY = 'df43a3f1-23cd-485e-a31a-2ef59b5eced5';
 const WEATHER_API_URL = `http://api.airvisual.com/v2/nearest_city?key=${API_KEY}`;
 
 

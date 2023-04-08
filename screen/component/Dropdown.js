@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const API_KEY = '696a49a5-7001-4cd5-98eb-b88cbde9cbc8';
+const API_KEY = 'df43a3f1-23cd-485e-a31a-2ef59b5eced5';
 const BASE_URL = 'http://api.airvisual.com/v2';
 
 const Dropdown = ({ onSelectCountry, onSelectState, onSelectCity }) => {
@@ -52,63 +52,66 @@ const Dropdown = ({ onSelectCountry, onSelectState, onSelectCity }) => {
         });
     }
   }, [selectedState]);
-  
+
   return (
     <View>
-      <Text>Select Country:</Text>
-      <Picker
-        selectedValue={selectedCountry}
-        onValueChange={(value) => {
-          setSelectedCountry(value);
-          setSelectedState('');
-          setSelectedCity('');
-          setStates([]);
-          setCities([]);
-          onSelectCountry(value);
-        }}
-        style={{ width: 200, height: 'auto' }} 
-      >
-        <Picker.Item label="Select a country" value="" />
-        {countries.map((item) => (
-          <Picker.Item label={item} value={item} key={item} />
-        ))}
-      </Picker>
+      <View style={styles.borderRadius}>
+        <Picker
+          selectedValue={selectedCountry}
+          onValueChange={(value) => {
+            setSelectedCountry(value);
+            setSelectedState('');
+            setSelectedCity('');
+            setStates([]);
+            setCities([]);
+            onSelectCountry(value);
+          }}
+          style={styles.picker}
+        >
+          <Picker.Item label="Select a country" value="" />
+          {countries.map((item) => (
+            <Picker.Item label={item} value={item} key={item} />
+          ))}
+        </Picker>
+      </View>
       {selectedCountry && (
         <>
-          <Text>Select State:</Text>
-          <Picker
-            selectedValue={selectedState}
-            onValueChange={(value) => {
-              setSelectedState(value);
-              setSelectedCity('');
-              setCities([]);
-              onSelectState(value);
-            }}
-            style={{ width: 200, height: 'auto' }}
-          >
-            <Picker.Item label="Select a state" value="" />
-            {states.map((item) => (
-              <Picker.Item label={item} value={item} key={item} />
-            ))}
-          </Picker>
+          <View style={styles.borderRadius}>
+            <Picker
+              selectedValue={selectedState}
+              onValueChange={(value) => {
+                setSelectedState(value);
+                setSelectedCity('');
+                setCities([]);
+                onSelectState(value);
+              }}
+              style={styles.picker}
+            >
+              <Picker.Item label="Select a state" value="" />
+              {states.map((item) => (
+                <Picker.Item label={item} value={item} key={item} />
+              ))}
+            </Picker>
+          </View>
         </>
       )}
       {selectedState && (
         <>
-          <Text>Select City:</Text>
-          <Picker
-            selectedValue={selectedCity}
-            onValueChange={(value) => {
-              setSelectedCity(value)
-              onSelectCity(value);
-            }}
-            style={{ width: 200, height: 'auto' }}
-          >
-            <Picker.Item label="Select a city" value="" />
-            {cities.map((item) => (
-              <Picker.Item label={item} value={item} key={item} />
-            ))}
-          </Picker>
+          <View style={styles.borderRadius}>
+            <Picker
+              selectedValue={selectedCity}
+              onValueChange={(value) => {
+                setSelectedCity(value)
+                onSelectCity(value);
+              }}
+              style={styles.picker}
+            >
+              <Picker.Item label="Select a city" value="" />
+              {cities.map((item) => (
+                <Picker.Item label={item} value={item} key={item} />
+              ))}
+            </Picker>
+          </View>
         </>
       )}
     </View>
@@ -116,3 +119,18 @@ const Dropdown = ({ onSelectCountry, onSelectState, onSelectCity }) => {
 };
 
 export default Dropdown;
+
+const styles = StyleSheet.create({
+  picker: {
+    fontSize: 16,
+    borderRadius: 40,
+    padding: 10,
+    backgroundColor: "white",
+    color: "black",
+  },
+  borderRadius: {
+    borderRadius: 50,
+    overflow: 'hidden',
+    marginVertical: 6,
+  }
+})
