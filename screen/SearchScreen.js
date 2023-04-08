@@ -1,17 +1,18 @@
-import React, { useState }  from 'react';
+import React, { useState, useEffect }  from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
+import Dropdown from './component/Dropdown';
 
 const SECRET_API_KEY = "696a49a5-7001-4cd5-98eb-b88cbde9cbc8";
 
 export default function SearchScreen() {
-  const [city, setCity] = useState('');
-  const [state, setState] = useState('');
-  const [country, setCountry] = useState('');
+  const [selectedCountry, setSelectedCountry] = useState('');
+  const [selectedState, setSelectedState] = useState('');
+  const [selectedCity, setSelectedCity] = useState('');
   const [aqiData, setAqiData] = useState(null);
 
   const fetchAqiData = () => {
-    const url = `http://api.airvisual.com/v2/city?city=${city}&state=${state}&country=${country}&key=${SECRET_API_KEY}`;
+    const url = `http://api.airvisual.com/v2/city?city=${selectedCity}&state=${selectedState}&country=${selectedCountry}&key=${SECRET_API_KEY}`;
 
     axios.get(url)
       .then(response => {
@@ -23,32 +24,28 @@ export default function SearchScreen() {
       });
   };
 
+  useEffect(() => {
+   setSelectedCountry(null);
+   setSelectedState(null);
+   setSelectedCity(null);
+  }, []);
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Air Quality</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Enter city"
-        onChangeText={text => setCity(text)}
-        value={city}
+      <Dropdown 
+        onSelectCountry={setSelectedCountry} 
+        onSelectState={setSelectedState} 
+        onSelectCity={setSelectedCity} 
       />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter state"
-        onChangeText={text => setState(text)}
-        value={state}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Enter country"
-        onChangeText={text => setCountry(text)}
-        value={country}
-      />
-      <Button title="Search" onPress={fetchAqiData} />
+      {selectedCity && (
+        <Button title="Search" onPress={fetchAqiData} />
+      )}
+      <Text>{selectedCountry}, {selectedState}, {selectedCity}</Text>
       {aqiData && (
-        <View style={styles.aqiData}>
-          <Text style={styles.aqiTitle}>Air Quality Index: {aqiData.data.current.pollution.aqius}</Text>
-        </View>
+        <>
+          <Text>Air Quality Index: {aqiData.data.current.pollution.aqius}</Text>
+        </>
       )}
     </View>
   );
