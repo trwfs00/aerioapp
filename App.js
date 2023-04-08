@@ -50,13 +50,13 @@ export default function App() {
     })
   }, []);
 
-  // if (user == null) {
-  //   return <LoginScreen/>
-  // }
-
   if (user == null) {
-    return <LoginEmailScreen/>
+    return <LoginScreen/>
   }
+
+  // if (user == null) {
+  //   return <LoginEmailScreen/>
+  // }
 
   return (
     
