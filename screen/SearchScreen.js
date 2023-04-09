@@ -10,7 +10,7 @@ import {
   Image,
 } from "react-native";
 import axios from 'axios';
-import Dropdown from './component/dropdown';
+import Dropdown from './component/Dropdown'
 import { BlurView } from 'expo-blur';
 
 const _01d = require('../assets/icon/01d.png');
@@ -137,23 +137,6 @@ export default function SearchScreen() {
   }
 
   return (
-    // <View style={styles.container}>
-    //   <Text style={styles.title}>Air Quality</Text>
-    //   <Dropdown 
-    //     onSelectCountry={setSelectedCountry} 
-    //     onSelectState={setSelectedState} 
-    //     onSelectCity={setSelectedCity} 
-    //   />
-    //   {selectedCity && (
-    //     <Button title="Search" onPress={fetchAqiData} />
-    //   )}
-    //   <Text>{selectedCountry}, {selectedState}, {selectedCity}</Text>
-    //   {aqiData && (
-    //     <>
-    //       <Text>Air Quality Index: {aqiData.data.current.pollution.aqius}</Text>
-    //     </>
-    //   )}
-    // </View>
     <View style={{ flex: 1, backgroundColor: '#FFFFFF' }}>
       {!aqiData && (
         <>

@@ -1,12 +1,6 @@
 import * as React from 'react'
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, TouchableOpacity, ScrollView, Text, View, FlatList, SafeAreaView, LogBox, Image } from 'react-native';
-import firebase from 'firebase/compat/app';
-import { getDatabase, ref, onValue, set } from 'firebase/database';
-import { getAuth } from 'firebase/auth';
-import { Provider as PaperProvider, Card, List, Button } from 'react-native-paper';
-import Constants from 'expo-constants';
 import LoginPhoneScreen from './LoginPhoneScreen';
 import LoginEmailScreen from './LoginEmailScreen';
 import SignupEmailScreen from './SignupEmailScreen';

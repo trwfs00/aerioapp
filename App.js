@@ -16,6 +16,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 const firebaseConfig = {
   apiKey: "AIzaSyCminE7NHtcv2QBkNZs6EgkOi1NimQX2KI",
   authDomain: "aerio-ae7af.firebaseapp.com",
+  databaseURL: "https://aerio-ae7af-default-rtdb.asia-southeast1.firebasedatabase.app",
   projectId: "aerio-ae7af",
   storageBucket: "aerio-ae7af.appspot.com",
   messagingSenderId: "826425665597",
@@ -29,12 +30,6 @@ try {
   firebase.initializeApp(firebaseConfig);
 } catch (err) { }
 
-function dbListener(path, setData) {
-  const tb = ref(getDatabase(), path);
-  onValue(tb, (snapshot) => {
-    setData(snapshot.val());
-  })
-}
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

@@ -131,13 +131,20 @@ export default function LoginEmailScreen() {
                 >
                     <Text style={{ color: "white", textAlign: "center", fontSize: 20 }}>Sign in</Text>
                 </TouchableOpacity>
-                <TouchableOpacity
+
+                <View
+                    style={{flexDirection: 'row', alignItems: 'center',alignSelf:'center',marginTop:10,}}
+                >
+                    <Text style={{fontSize:16,color:'#A1B3C2'}}>You don't have an account? </Text>
+                    <TouchableOpacity
                     onPress={() => navigation.navigate('Signup')}
                     >
                     <Text
-                        style={{textAlign:'center',color:'#05A0FA',fontSize:16,fontWeight:500,marginTop:10, textDecorationLine: 'underline'}}
+                        style={{textAlign:'center',color:'#05A0FA',fontSize:16,fontWeight:500, textDecorationLine: 'underline'}}
                     >Sign Up</Text>
                 </TouchableOpacity>
+                </View>
+                
 
             </View>
 

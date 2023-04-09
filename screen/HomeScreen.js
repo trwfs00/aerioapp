@@ -3,6 +3,8 @@ import { StyleSheet, Text, View, Image,TouchableOpacity, } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as Location from 'expo-location';
 import { BlurView } from 'expo-blur';
+import { getDatabase,ref,set,onValue } from '@firebase/database';
+import { getAuth } from '@firebase/auth';
 
 const _01d = require('../assets/icon/01d.png');
 const _01n = require('../assets/icon/01n.png');
@@ -41,9 +43,21 @@ export default function HomeScreen() {
   const [greeting, setGreeting] = useState("");
   const [icon, setIcon] = useState(null);
 
+  const [userData,setUserData] = useState(null)
+  const user = getAuth().currentUser
+  const db = getDatabase()
+  const userRef =  ref(db,'user/' + user.uid)
+
+
   useEffect(() => {
     getLocationAsync();
-  }, []);
+
+    onValue(userRef,(snapshot)=>{
+      const data = snapshot.val()
+      setUserData(data)
+    })
+    console.log(userData)
+  }, [user.uid]);
 
   useEffect(() => {
     const now = new Date();
@@ -132,14 +146,7 @@ export default function HomeScreen() {
     if(aqi >= 0) return "Breathe deeply and enjoy the fresh, clean air around you.";
   }
 
-  // function changeColor(value) {
-  //   if(value >= 301) setPmColor("#872E47");
-  //   if(value >= 201) setPmColor("#8E4296");
-  //   if(value >= 151) setPmColor("#EF574E");
-  //   if(value >= 101) setPmColor("#FF9900");
-  //   if(value >= 51) setPmColor("#FBD405");
-  //   if(value >= 0) setPmColor("#4CD964");
-  // } 
+  
 
   function changeColor(value) {
     if(value >= 301) return "#872E47";
@@ -150,16 +157,7 @@ export default function HomeScreen() {
     if(value >= 0) return "#4CD964";
   } 
 
-  // function changeColor(value) {
-  //   switch(value){
-  //     case (value >= 301) : return setPmColor("#872E47");
-  //     case (value >= 201) : return setPmColor("#8E4296");
-  //     case (value >= 151) : return setPmColor("#EF574E");
-  //     case (value >= 101) : return setPmColor("#FF9900");
-  //     case (value >= 51) : return setPmColor("#FBD405");
-  //     case (value >= 0) : return setPmColor("#4CD964");
-  //   }
-  // } 
+  
 
   
 
@@ -256,9 +254,12 @@ export default function HomeScreen() {
             }}
           >
             <Text style={{ color: "white" }}>{greeting} 👋</Text>
-            <Text style={{ color: "white", fontSize: 27, fontWeight: 600 }}>
-            Name Surname
-            </Text>
+            {userData && (
+              <Text style={{ color: "white", fontSize: 27, fontWeight: 600 }}>
+                {userData.username}
+              </Text>
+            )}
+            
           </View>
 
           <Image

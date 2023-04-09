@@ -1,94 +1,68 @@
-// import * as React from "react";
 import React, { useState, useEffect } from 'react';
-import {
-    Text,
-    View,
-    TextInput,
-    Button,
-    StyleSheet,
-    TouchableOpacity,
-    Platform,
-    Image,
-} from "react-native";
-import { initializeApp, getApp } from "firebase/app";
+import firebase from "firebase/compat/app";
+import { getAuth } from "firebase/auth";
+import {Text,View,TextInput,Button,StyleSheet,TouchableOpacity,Platform,Image,} from "react-native";
 import { Ionicons } from '@expo/vector-icons';
-import { getAuth,createUserWithEmailAndPassword,signInWithEmailAndPassword } from '@firebase/auth';
+import { getDatabase,ref,set,onValue,update } from '@firebase/database';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
-import { getDatabase,set,ref } from 'firebase/database';
+import { ScrollView } from 'react-native-gesture-handler';
 
-const firebaseConfig = {
-    apiKey: "AIzaSyCminE7NHtcv2QBkNZs6EgkOi1NimQX2KI",
-    authDomain: "aerio-ae7af.firebaseapp.com",
-    databaseURL: "https://aerio-ae7af-default-rtdb.asia-southeast1.firebasedatabase.app",
-    projectId: "aerio-ae7af",
-    storageBucket: "aerio-ae7af.appspot.com",
-    messagingSenderId: "826425665597",
-    appId: "1:826425665597:web:cfd8c7df913465c861a254",
-    measurementId: "G-9415X5N7EN"
-  };
-    
-  try {
-    firebase.initializeApp(firebaseConfig);
-  } catch (err) { }
 
-export default function SignupEmailScreen() {
+
+
+export default function EditProfileScreen() {
 
     const navigation = useNavigation();
-    
+
     const [email,setEmail] = useState('')
     const [password,setPassword] = useState('')
     const [name,setName] = useState('')
 
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordsMatch, setPasswordsMatch] = useState(true);
-    
-    // const app = getApp();
-    const auth = getAuth();
 
-
-    const handleCreateAccout = () => {
-        const db = getDatabase();
-        if (password === confirmPassword) {
-            setPasswordsMatch(true);
-            createUserWithEmailAndPassword(auth, email, password)
-                .then((userCredential) => {
-
-                    const user = userCredential.user;
-
-                  
-                    set(ref(db,'user/' + user.uid),{
-                        email: email,
-                        password: password,
-                        username: name
-                      });
-                    console.log("Account created", user);
-                })
-                .catch((error) => {
-                    console.log(error);
-                    alert(error)
-                });
-        } else {
-            setPasswordsMatch(false);
-            // Passwords do not match, show an error message
-        }
-
-        
-      };
-      
-      
     const [showPassword, setShowPassword] = useState(false);
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
+    const [userData,setUserData] = useState(null)
+    const user = getAuth().currentUser
+    const db = getDatabase()
+    const userRef =  ref(db,'user/' + user.uid)
+
+    useEffect(() => {
+        
+        onValue(userRef,(snapshot)=>{
+          const data = snapshot.val()
+          setUserData(data)
+        })
+        console.log(userData)
+      }, [user.uid]);
+
+      const updateData = () =>{
+        const db = getDatabase();
+        const userRef = ref(db,'user/' + user.uid)
+        
+        update(userRef,{
+            username:name
+        }).then(() =>{
+            console.log('Data update')
+        }).catch((error) =>{
+            console.log('Error:',error)
+        })
+      }
 
     return (
-        <View style={{ flex: 1 }}>
+        <ScrollView style={{ flex: 1,backgroundColor:"#ffffff" }}>
+            
             <View style={{ padding: 20, paddingTop: 50, backgroundColor: "#0598ED", paddingBottom: 50, borderBottomStartRadius: 40 }}>
 
                 <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('login')}
+                        onPress={() => navigation.navigate('Profile')}
                     >
                         <Image
                             source={require('../assets/back_icon.png')}
@@ -113,10 +87,10 @@ export default function SignupEmailScreen() {
                     />
                 </View>
 
-                <Text style={{ color: "white", fontWeight: "500", fontSize: 25, marginTop: 40 }}>Sign up With Email</Text>
-                <Text style={{ color: "white", marginTop: 8, fontSize: 16 }}>Email sign-up: The simplest, safest and fastest way to access your account.</Text>
+                <Text style={{ color: "white", fontWeight: "500", fontSize: 25, marginTop: 40 }}>Edit Profile</Text>
                 
-                {/* <Text style={{ marginTop: 40, color: "white" }}>Username</Text> */}
+                <Text style={{ marginTop: 40, color: "white",marginLeft:10 }}>Username</Text>
+                {userData && (
                 <TextInput
                     style={{
                         marginBottom: 10,
@@ -125,15 +99,16 @@ export default function SignupEmailScreen() {
                         padding: 10,
                         backgroundColor: "white",
                         color: "black",
-                        marginTop:40
+
                     }}
                     placeholder="Username"
                     placeholderTextColor={"#A1B3C2"}
                     onChangeText={(text) => setName(text)}
-                />
-
-                {/* <Text style={{color: "white" }}>Email</Text> */}
-                <TextInput
+                >{userData.username}</TextInput>
+                )}
+                <Text style={{ color: "white",marginLeft:10 }}>Email</Text>
+                {userData && (
+                    <TextInput
                     style={{
                         marginVertical: 10,
                         fontSize: 16,
@@ -145,8 +120,11 @@ export default function SignupEmailScreen() {
                     placeholder="Email"
                     placeholderTextColor={"#A1B3C2"}
                     onChangeText={(text) => setEmail(text)}
-                />
-                <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                >{userData.email}</TextInput>
+                )}
+                <Text style={{ color: "white",marginLeft:10 }}>Password</Text>
+                {userData && (
+                    <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TextInput
                         style={{
                             marginVertical: 10,
@@ -161,7 +139,7 @@ export default function SignupEmailScreen() {
                         placeholderTextColor={"#A1B3C2"}
                         secureTextEntry={!showPassword}
                         onChangeText={(text) => setPassword(text)}
-                    />
+                    >{userData.password}</TextInput>
                     <TouchableOpacity onPress={togglePasswordVisibility}
                         style={{
                             backgroundColor: "white",
@@ -177,6 +155,8 @@ export default function SignupEmailScreen() {
                         />
                     </TouchableOpacity>
                 </View>
+                )}
+                <Text style={{ color: "white",marginLeft:10 }}>Confirm Password</Text>
                 <View style={{ flexDirection: 'row', alignItems: 'center' }}>
                     <TextInput
                         style={{
@@ -219,34 +199,15 @@ export default function SignupEmailScreen() {
             <View style={{ flex: 1 }}></View>
             <View style={{ padding: 30 }}>
                 <TouchableOpacity
-                    title="Sign in"
                     color={"#05A0FA"}
                     style={{ textTransform: "none", backgroundColor: "#05A0FA", padding: 10, borderRadius: 30 }}
-                    onPress={handleCreateAccout}
+                    onPress={updateData}
                 >
-                    <Text style={{ color: "white", textAlign: "center", fontSize: 20 }}>Sign up</Text>
+                    <Text style={{ color: "white", textAlign: "center", fontSize: 20 }}>Confirm</Text>
                 </TouchableOpacity>
-                <View
-                    style={{flexDirection: 'row', alignItems: 'center',alignSelf:'center',marginTop:10,}}
-                >
-                    <Text style={{fontSize:16,color:'#A1B3C2'}}>Already have an account? </Text>
-                    <TouchableOpacity
-                    onPress={() => navigation.navigate('Email')}
-                    >
-                    <Text
-                        style={{textAlign:'center',color:'#05A0FA',fontSize:16,fontWeight:500, textDecorationLine: 'underline'}}
-                    >Sign in</Text>
-                </TouchableOpacity>
-                </View>
                 
             </View>
 
-        </View>
-
-
-    );
+        </ScrollView>
+    )
 }
-
-const styles = StyleSheet.create({
-
-})
