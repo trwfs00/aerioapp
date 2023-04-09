@@ -46,6 +46,7 @@ export default function SearchScreen() {
     axios.get(url)
       .then(response => {
         setAqiData(response.data);
+        console.log(response.data.data.current.weather.ic)
       })
       .catch(error => {
         console.log(error);
@@ -99,11 +100,11 @@ export default function SearchScreen() {
         return _02d;
       case "02n":
         return _02n;
-      case "03d":
+      case "03d","03n":
         return _03d;
-      case "04d":
+      case "04d","04n":
         return _04d;
-      case "09d":
+      case "09d","09n":
         return _09d;
       case "10d":
         return _10d;

@@ -137,7 +137,7 @@ export default function LoginEmailScreen() {
                 >
                     <Text style={{fontSize:16,color:'#A1B3C2'}}>You don't have an account? </Text>
                     <TouchableOpacity
-                    onPress={() => navigation.navigate('Signup')}
+                    onPress={() => navigation.navigate('SignupEmail')}
                     >
                     <Text
                         style={{textAlign:'center',color:'#05A0FA',fontSize:16,fontWeight:500, textDecorationLine: 'underline'}}

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useState, useEffect } from 'react';
 import {
     Text,
     View,
@@ -23,14 +23,18 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { BottomNavigation } from "react-native-paper";
 import { useNavigation } from '@react-navigation/native';
 
-export default function LoginPhoneScreen() {
+export default function SigupPhoneScreen() {
     // Ref or state management hooks
     const app = getApp();
     const auth = getAuth();
     const recaptchaVerifier = React.useRef(null);
     const [phoneNumber, setPhoneNumber] = React.useState();
+    const [name,setName] = useState('')
     const [verificationId, setVerificationId] = React.useState();
     const [verificationCode, setVerificationCode] = React.useState();
+
+    
+    
 
     const firebaseConfig = app ? app.options : undefined;
     const [message, showMessage] = React.useState();
@@ -76,10 +80,25 @@ export default function LoginPhoneScreen() {
                     />
                 </View>
 
-                <Text style={{ color: "white", fontWeight: "500", fontSize: 25, marginTop: 40 }}>Sign in</Text>
+                <Text style={{ color: "white", fontWeight: "500", fontSize: 25, marginTop: 40 }}>Sign up</Text>
                 <Text style={{ color: "white", marginTop: 8, fontSize: 16 }}>Phone sign-in: The simplest, safest and fastest way to access your account.</Text>
 
-                <Text style={{ marginTop: 40, color: "white" }}>Phone No.</Text>
+                
+                <TextInput
+                    style={{
+                        marginTop: 40,
+                        marginVertical: 10,
+                        fontSize: 16,
+                        borderRadius: 20,
+                        padding: 10,
+                        backgroundColor: "white",
+                        color: "black"
+                    }}
+                    placeholder="Username"
+                    placeholderTextColor={"#A1B3C2"}
+                    onChangeText={(text) => setName(text)}
+                    
+                />
                 <TextInput
                     style={{
                         marginVertical: 10,
@@ -194,7 +213,18 @@ export default function LoginPhoneScreen() {
                                 verificationId,
                                 verificationCode
                             );
-                            await signInWithCredential(auth, credential);
+                            await signInWithCredential(auth, credential).then((userCredential)=>{
+                                    console.log('test')
+                                   const user = userCredential.user;
+                                    
+                                    set(ref(db,'user/' + user.uid),{
+                                        phoneNumber: phoneNumber,
+                                        username: name
+                                      });
+                                    console.log("Account created", user.uid); 
+                                })
+
+                            
                             showMessage({ text: "Phone authentication successful 👍" });
                         } catch (err) {
                             showMessage({ text: `Error: ${err.message}`, color: "red" });
@@ -207,16 +237,15 @@ export default function LoginPhoneScreen() {
                 <View
                     style={{flexDirection: 'row', alignItems: 'center',alignSelf:'center',marginTop:10,}}
                 >
-                    <Text style={{fontSize:16,color:'#A1B3C2'}}>You don't have an account? </Text>
+                    <Text style={{fontSize:16,color:'#A1B3C2'}}>Already have an account? </Text>
                     <TouchableOpacity
-                    onPress={() => navigation.navigate('SignupPhone')}
+                    onPress={() => navigation.navigate('Phone')}
                     >
                     <Text
                         style={{textAlign:'center',color:'#05A0FA',fontSize:16,fontWeight:500, textDecorationLine: 'underline'}}
-                    >Sign Up</Text>
+                    >Sign in</Text>
                 </TouchableOpacity>
                 </View>
-
             </View>
 
         </View>

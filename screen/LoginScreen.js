@@ -4,11 +4,12 @@ import { StyleSheet, TouchableOpacity, ScrollView, Text, View, FlatList, SafeAre
 import LoginPhoneScreen from './LoginPhoneScreen';
 import LoginEmailScreen from './LoginEmailScreen';
 import SignupEmailScreen from './SignupEmailScreen';
+import SigupPhoneScreen from './SignupPhoneScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { useNavigation } from '@react-navigation/native';
 
-function selectLogin() {
+function SelectLogin() {
 
     const navigation = useNavigation();
 
@@ -96,10 +97,12 @@ export default function LoginScreen() {
                     headerShown:false
                 }}
                 >
-                <Stack.Screen name="login" component={selectLogin} />
+                <Stack.Screen name="login" component={SelectLogin} />
                 <Stack.Screen name="Phone" component={LoginPhoneScreen} />
                 <Stack.Screen name="Email" component={LoginEmailScreen} />
-                <Stack.Screen name="Signup" component={SignupEmailScreen} />
+                <Stack.Screen name="SignupEmail" component={SignupEmailScreen} />
+                <Stack.Screen name="SignupPhone" component={SigupPhoneScreen} />
+
             </Stack.Navigator>
         </NavigationContainer>
     )

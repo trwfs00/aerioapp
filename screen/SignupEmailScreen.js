@@ -54,7 +54,6 @@ export default function SignupEmailScreen() {
                 .then((userCredential) => {
 
                     const user = userCredential.user;
-
                   
                     set(ref(db,'user/' + user.uid),{
                         email: email,

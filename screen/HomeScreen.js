@@ -39,7 +39,7 @@ export default function HomeScreen() {
   const [state, setState] = useState(null);
   const [country, setCountry] = useState(null);
   const [pmColor, setPmColor] = useState(null);
-  const [dayOrNight, setDayOrNight] = useState(null);
+  // const [dayOrNight, setDayOrNight] = useState(null);
   const [greeting, setGreeting] = useState("");
   const [icon, setIcon] = useState(null);
 
@@ -59,39 +59,39 @@ export default function HomeScreen() {
     console.log(userData)
   }, [user.uid]);
 
-  useEffect(() => {
-    const now = new Date();
-    const offset = now.getTimezoneOffset();
-    const hour = now.getUTCHours() + offset / 60;
-    if (hour >= 6 && hour < 12) {
-      setDayOrNight("morning");
-    } else if (hour >= 12 && hour < 18) {
-      setDayOrNight("afternoon");
-    } else if (hour >= 18 && hour < 24) {
-      setDayOrNight("evening");
-    } else {
-      setDayOrNight("night");
-    }
-  }, []);
+  // useEffect(() => {
+  //   const now = new Date();
+  //   const offset = now.getTimezoneOffset();
+  //   const hour = now.getUTCHours() + offset / 60;
+  //   if (hour >= 6 && hour < 12) {
+  //     setDayOrNight("morning");
+  //   } else if (hour >= 12 && hour < 18) {
+  //     setDayOrNight("afternoon");
+  //   } else if (hour >= 18 && hour < 24) {
+  //     setDayOrNight("evening");
+  //   } else {
+  //     setDayOrNight("night");
+  //   }
+  // }, []);
   
-  useEffect(() => {
-    switch (dayOrNight) {
-      case "morning":
-        setGreeting("Good morning");
-        break;
-      case "afternoon":
-        setGreeting("Good afternoon");
-        break;
-      case "evening":
-        setGreeting("Good evening");
-        break;
-      case "night":
-        setGreeting("Good night");
-        break;
-      default:
-        setGreeting("");
-    }
-  }, [dayOrNight]);  
+  // useEffect(() => {
+  //   switch (dayOrNight) {
+  //     case "morning":
+  //       setGreeting("Good morning");
+  //       break;
+  //     case "afternoon":
+  //       setGreeting("Good afternoon");
+  //       break;
+  //     case "evening":
+  //       setGreeting("Good evening");
+  //       break;
+  //     case "night":
+  //       setGreeting("Good night");
+  //       break;
+  //     default:
+  //       setGreeting("");
+  //   }
+  // }, [dayOrNight]);  
 
   async function getLocationAsync() {
     try {
@@ -105,22 +105,39 @@ export default function HomeScreen() {
       setLocation(coords);
 
       getWeatherDataAsync(coords.latitude, coords.longitude);
+
+      const addressInfo = await Location.reverseGeocodeAsync({ latitude: coords.latitude, longitude: coords.longitude });
+      const timezone = addressInfo[0].timezone;
+      const currentTime = DateTime.now().setZone(timezone);
+      const hour = currentTime.hour;
+
+      if (hour >= 0 && hour < 12) {
+        setGreeting('Good morning');
+      } else if (hour >= 12 && hour < 18) {
+        setGreeting('Good afternoon');
+      } else if (hour >= 18 && hour < 24) {
+        setGreeting('Good evening');
+      } else {
+        setGreeting('Good night');
+      }
     } catch (error) {
       setErrorMessage(error.message);
     }
-  }
+  } 
 
   async function getWeatherDataAsync(latitude, longitude) {
     try {
       let response = await fetch(`${WEATHER_API_URL}&lat=${latitude}&lon=${longitude}`);
       let data = await response.json();
+      setIcon(data.data.current.weather.ic)
       setWeatherData(data.data.current.weather);
       setUsAqi(data.data.current.pollution.aqius);
       setCnAqi(data.data.current.pollution.aqicn);
       setCity(data.data.city);
       setState(data.data.state);
       setCountry(data.data.country);
-      setIcon(data.data.current.weather.ic)
+      
+      console.log(data.data.current.weather.ic)
 
       changeColor(usaqi);
     } catch (error) {
@@ -180,11 +197,11 @@ export default function HomeScreen() {
         return _02d;
       case "02n":
         return _02n;
-      case "03d":
+      case "03d","03n":
         return _03d;
-      case "04d":
+      case "04d","04n":
         return _04d;
-      case "09d":
+      case "09d","09n":
         return _09d;
       case "10d":
         return _10d;
@@ -270,6 +287,7 @@ export default function HomeScreen() {
               alignSelf: "flex-end",
             }}
             source={getImageSource(icon)}
+            // source={_10d}
           />
         </View>
       </View>

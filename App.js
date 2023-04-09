@@ -49,10 +49,6 @@ export default function App() {
     return <LoginScreen/>
   }
 
-  // if (user == null) {
-  //   return <LoginEmailScreen/>
-  // }
-
   return (
     
     <NavigationContainer>

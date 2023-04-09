@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { Picker } from '@react-native-picker/picker';
 
-const API_KEY = 'df43a3f1-23cd-485e-a31a-2ef59b5eced5';
+const API_KEY1 = 'df43a3f1-23cd-485e-a31a-2ef59b5eced5';
+const API_KEY2 = '66dc4aeb-5d63-40c4-a406-1db97253f145';
+const API_KEY3 = '696a49a5-7001-4cd5-98eb-b88cbde9cbc8';
 const BASE_URL = 'http://api.airvisual.com/v2';
 
 const Dropdown = ({ onSelectCountry, onSelectState, onSelectCity }) => {
@@ -15,7 +17,7 @@ const Dropdown = ({ onSelectCountry, onSelectState, onSelectCity }) => {
 
   useEffect(() => {
     // Fetch the list of supported countries
-    fetch(`${BASE_URL}/countries?key=${API_KEY}`)
+    fetch(`${BASE_URL}/countries?key=${API_KEY1}`)
       .then((response) => response.json())
       .then((data) => {
         setCountries(data.data.map((item) => item.country));
@@ -28,7 +30,7 @@ const Dropdown = ({ onSelectCountry, onSelectState, onSelectCity }) => {
   useEffect(() => {
     // Fetch the list of supported states in the selected country
     if (selectedCountry) {
-      fetch(`${BASE_URL}/states?country=${selectedCountry}&key=${API_KEY}`)
+      fetch(`${BASE_URL}/states?country=${selectedCountry}&key=${API_KEY2}`)
         .then((response) => response.json())
         .then((data) => {
           setStates(data.data.map((item) => item.state));
@@ -42,7 +44,7 @@ const Dropdown = ({ onSelectCountry, onSelectState, onSelectCity }) => {
   useEffect(() => {
     // Fetch the list of supported cities in the selected state
     if (selectedState) {
-      fetch(`${BASE_URL}/cities?state=${selectedState}&country=${selectedCountry}&key=${API_KEY}`)
+      fetch(`${BASE_URL}/cities?state=${selectedState}&country=${selectedCountry}&key=${API_KEY3}`)
         .then((response) => response.json())
         .then((data) => {
           setCities(data.data.map((item) => item.city));
