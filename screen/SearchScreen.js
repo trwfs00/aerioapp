@@ -351,53 +351,53 @@ const styles = StyleSheet.create({
   }
 })
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 20,
-    backgroundColor: '#fff',
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  input: {
-    height: 40,
-    borderColor: 'gray',
-    borderWidth: 1,
-    padding: 10,
-    marginBottom: 20,
-    width: '100%',
-  },
-  button: {
-    backgroundColor: '#2196F3',
-    padding: 10,
-    borderRadius: 5,
-    width: '100%',
-  },
-  buttonText: {
-    color: '#fff',
-    textAlign: 'center',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
-  aqiData: {
-    marginTop: 20,
-    borderWidth: 1,
-    borderRadius: 5,
-    padding: 10,
-    borderColor: '#ccc',
-    width: '100%',
-  },
-  aqiTitle: {
-    fontWeight: 'bold',
-    fontSize: 18,
-    marginBottom: 10,
-  },
-  aqiText: {
-    marginBottom: 5,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     padding: 20,
+//     backgroundColor: '#fff',
+//   },
+//   title: {
+//     fontSize: 24,
+//     fontWeight: 'bold',
+//     marginBottom: 20,
+//   },
+//   input: {
+//     height: 40,
+//     borderColor: 'gray',
+//     borderWidth: 1,
+//     padding: 10,
+//     marginBottom: 20,
+//     width: '100%',
+//   },
+//   button: {
+//     backgroundColor: '#2196F3',
+//     padding: 10,
+//     borderRadius: 5,
+//     width: '100%',
+//   },
+//   buttonText: {
+//     color: '#fff',
+//     textAlign: 'center',
+//     fontWeight: 'bold',
+//     fontSize: 16,
+//   },
+//   aqiData: {
+//     marginTop: 20,
+//     borderWidth: 1,
+//     borderRadius: 5,
+//     padding: 10,
+//     borderColor: '#ccc',
+//     width: '100%',
+//   },
+//   aqiTitle: {
+//     fontWeight: 'bold',
+//     fontSize: 18,
+//     marginBottom: 10,
+//   },
+//   aqiText: {
+//     marginBottom: 5,
+//   },
+// });
