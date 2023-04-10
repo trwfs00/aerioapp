@@ -100,11 +100,17 @@ export default function SearchScreen() {
         return _02d;
       case "02n":
         return _02n;
-      case "03d","03n":
+      case "03d":
         return _03d;
-      case "04d","04n":
+      case "03n":
+        return _03d;
+      case "04d":
         return _04d;
-      case "09d","09n":
+        case "04n":
+        return _04d;
+      case "09d":
+        return _09d;
+      case "09n":
         return _09d;
       case "10d":
         return _10d;

@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, Text, View, Image,TouchableOpacity, } from 'react-native';
+import { StyleSheet, Text, View, Image,TouchableOpacity,  } from 'react-native';
 import Icon from "react-native-vector-icons/FontAwesome";
 import * as Location from 'expo-location';
 import { BlurView } from 'expo-blur';
 import { getDatabase,ref,set,onValue } from '@firebase/database';
 import { getAuth } from '@firebase/auth';
+import { Audio } from 'expo-av';
 
 const _01d = require('../assets/icon/01d.png');
 const _01n = require('../assets/icon/01n.png');
@@ -29,6 +30,15 @@ const API_KEY = '66dc4aeb-5d63-40c4-a406-1db97253f145';
 const WEATHER_API_URL = `http://api.airvisual.com/v2/nearest_city?key=${API_KEY}`;
 const TIME_API_KEY = '27FD6S9FM4HL';
 
+async function playSound() {
+  const soundObject = new Audio.Sound();
+  try {
+    await soundObject.loadAsync(require('../assets/ding-1-106698.mp3'));
+    await soundObject.playAsync();
+  } catch (error) {
+    console.error(error);
+  }
+}
 
 export default function HomeScreen() {
   const [location, setLocation] = useState(null);
@@ -51,7 +61,7 @@ export default function HomeScreen() {
 
   const [timezone, setTimezone] = useState('');
 
-
+  
 
   useEffect(() => {
     getLocationAsync();
@@ -66,7 +76,8 @@ export default function HomeScreen() {
   
   useEffect(() => {
     getLocationAsync();
-    setInterval(getTimezone(),300000);
+    // setInterval(getTimezone(),300000);
+    getTimezone()
 
     onValue(userRef,(snapshot)=>{
       const data = snapshot.val()
@@ -121,7 +132,7 @@ const getTimezone = async () => {
       setErrorMessage(error.message);
     }
   } 
-  
+
   async function getWeatherDataAsync(latitude, longitude) {
     try {
       let response = await fetch(`${WEATHER_API_URL}&lat=${latitude}&lon=${longitude}`);
@@ -195,11 +206,17 @@ const getTimezone = async () => {
         return _02d;
       case "02n":
         return _02n;
-      case "03d","03n":
+      case "03d":
         return _03d;
-      case "04d","04n":
+      case "03n":
+        return _03d;
+      case "04d":
         return _04d;
-      case "09d","09n":
+        case "04n":
+        return _04d;
+      case "09d":
+        return _09d;
+      case "09n":
         return _09d;
       case "10d":
         return _10d;
@@ -246,7 +263,7 @@ const getTimezone = async () => {
             justifyContent: "space-between",
           }}
         >
-          <TouchableOpacity
+          <TouchableOpacity 
             style={{
               backgroundColor: "white",
               padding: 15,
@@ -254,7 +271,8 @@ const getTimezone = async () => {
               alignItems: "center",
               marginVertical: 20,
             }}
-            onPress={() => console.log("test")}
+            activeOpacity={1}
+            onPress={playSound}
           >
             <Icon name="bell-o" size={20} color="black" />
           </TouchableOpacity>
