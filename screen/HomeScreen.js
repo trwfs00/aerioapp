@@ -25,8 +25,9 @@ const a151_200 = require('../assets/character/151-200.png');
 const a201_300 = require('../assets/character/201-300.png');
 const a301_500 = require('../assets/character/301-500.png');
 
-const API_KEY = 'df43a3f1-23cd-485e-a31a-2ef59b5eced5';
+const API_KEY = '66dc4aeb-5d63-40c4-a406-1db97253f145';
 const WEATHER_API_URL = `http://api.airvisual.com/v2/nearest_city?key=${API_KEY}`;
+const TIME_API_KEY = '27FD6S9FM4HL';
 
 
 export default function HomeScreen() {
@@ -48,6 +49,9 @@ export default function HomeScreen() {
   const db = getDatabase()
   const userRef =  ref(db,'user/' + user.uid)
 
+  const [timezone, setTimezone] = useState('');
+
+
 
   useEffect(() => {
     getLocationAsync();
@@ -59,39 +63,44 @@ export default function HomeScreen() {
     console.log(userData)
   }, [user.uid]);
 
-  // useEffect(() => {
-  //   const now = new Date();
-  //   const offset = now.getTimezoneOffset();
-  //   const hour = now.getUTCHours() + offset / 60;
-  //   if (hour >= 6 && hour < 12) {
-  //     setDayOrNight("morning");
-  //   } else if (hour >= 12 && hour < 18) {
-  //     setDayOrNight("afternoon");
-  //   } else if (hour >= 18 && hour < 24) {
-  //     setDayOrNight("evening");
-  //   } else {
-  //     setDayOrNight("night");
-  //   }
-  // }, []);
   
-  // useEffect(() => {
-  //   switch (dayOrNight) {
-  //     case "morning":
-  //       setGreeting("Good morning");
-  //       break;
-  //     case "afternoon":
-  //       setGreeting("Good afternoon");
-  //       break;
-  //     case "evening":
-  //       setGreeting("Good evening");
-  //       break;
-  //     case "night":
-  //       setGreeting("Good night");
-  //       break;
-  //     default:
-  //       setGreeting("");
-  //   }
-  // }, [dayOrNight]);  
+  useEffect(() => {
+    getLocationAsync();
+    setInterval(getTimezone(),300000);
+
+    onValue(userRef,(snapshot)=>{
+      const data = snapshot.val()
+      setUserData(data)
+    })
+    console.log(userData)
+  }, [user.uid]);
+
+const getTimezone = async () => {
+    try {
+      const location = await Location.getCurrentPositionAsync();
+      const { latitude, longitude } = location.coords;
+
+      const timezoneApiUrl = `https://api.timezonedb.com/v2.1/get-time-zone?key=${TIME_API_KEY}&format=json&by=position&lat=${latitude}&lng=${longitude}`;
+      const response = await fetch(timezoneApiUrl);
+      const data = await response.json();
+
+      setTimezone(data.zoneName);
+      console.log(timezoneApiUrl)
+
+      const hour = parseInt(data.formatted.substr(11, 2));
+      if (hour >= 5 && hour < 12) {
+        setGreeting('Good morning');
+      } else if (hour >= 12 && hour < 18) {
+        setGreeting('Good afternoon');
+      } else if (hour >= 18 || hour < 21) {
+        setGreeting('Good evening');
+      } else {
+        setGreeting('Good night');
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   async function getLocationAsync() {
     try {
@@ -106,25 +115,13 @@ export default function HomeScreen() {
 
       getWeatherDataAsync(coords.latitude, coords.longitude);
 
-      const addressInfo = await Location.reverseGeocodeAsync({ latitude: coords.latitude, longitude: coords.longitude });
-      const timezone = addressInfo[0].timezone;
-      const currentTime = DateTime.now().setZone(timezone);
-      const hour = currentTime.hour;
 
-      if (hour >= 0 && hour < 12) {
-        setGreeting('Good morning');
-      } else if (hour >= 12 && hour < 18) {
-        setGreeting('Good afternoon');
-      } else if (hour >= 18 && hour < 24) {
-        setGreeting('Good evening');
-      } else {
-        setGreeting('Good night');
-      }
+
     } catch (error) {
       setErrorMessage(error.message);
     }
   } 
-
+  
   async function getWeatherDataAsync(latitude, longitude) {
     try {
       let response = await fetch(`${WEATHER_API_URL}&lat=${latitude}&lon=${longitude}`);
@@ -138,6 +135,7 @@ export default function HomeScreen() {
       setCountry(data.data.country);
       
       console.log(data.data.current.weather.ic)
+      console.log(`${WEATHER_API_URL}&lat=${latitude}&lon=${longitude}`)
 
       changeColor(usaqi);
     } catch (error) {
